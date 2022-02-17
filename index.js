@@ -92,34 +92,10 @@ function obtainNewCommand() {
                     reportRobotPosition();
                 }
             } else if (gj[i] === "LEFT") {
-                console.log("I need to turn left", gj[i]);
-                if (robotPosition.direction === "NORTH") {
-                    robotPosition.direction = "WEST";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "WEST") {
-                    robotPosition.direction = "SOUTH";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "SOUTH") {
-                    robotPosition.direction = "EAST";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "EAST") {
-                    robotPosition.direction = "NORTH";
-                    reportRobotPosition();
-                }
+                // console.log("I need to turn left", gj[i]);
+                turnLeft();
             } else if (gj[i] === "RIGHT") {
-                if (robotPosition.direction === "NORTH") {
-                    robotPosition.direction = "EAST";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "EAST") {
-                    robotPosition.direction = "SOUTH";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "SOUTH") {
-                    robotPosition.direction = "WEST";
-                    reportRobotPosition();
-                } else if (robotPosition.direction === "WEST") {
-                    robotPosition.direction = "NORTH";
-                    reportRobotPosition();
-                }
+                turnRight;
             } else if (gj[i] === "REPORT") {
                 reportRobotPosition();
             }
@@ -161,4 +137,36 @@ function updateRobotPosition(newXPos, newYPos, newDirection) {
 function genrateRandomNumber(upperRange) {
     var randomNumber = Math.floor(Math.random() * upperRange);
     return randomNumber;
+}
+
+function turnLeft() {
+    if (robotPosition.direction === "NORTH") {
+        robotPosition.direction = "WEST";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "WEST") {
+        robotPosition.direction = "SOUTH";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "SOUTH") {
+        robotPosition.direction = "EAST";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "EAST") {
+        robotPosition.direction = "NORTH";
+        reportRobotPosition();
+    }
+}
+
+function turnRight() {
+    if (robotPosition.direction === "NORTH") {
+        robotPosition.direction = "EAST";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "EAST") {
+        robotPosition.direction = "SOUTH";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "SOUTH") {
+        robotPosition.direction = "WEST";
+        reportRobotPosition();
+    } else if (robotPosition.direction === "WEST") {
+        robotPosition.direction = "NORTH";
+        reportRobotPosition();
+    }
 }

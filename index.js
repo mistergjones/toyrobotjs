@@ -4,18 +4,46 @@
 // 3. Commands such as 'PLACE PLACE 0,0, NORTH REPORT are invalid
 // 4. FLOATS ARE IGNORED and deemed an error. Integers only.
 
+document.getElementById("myForm").addEventListener("submit", myFunction);
+var qq = document.getElementById("[4,0]");
+console.log("QQ is", qq);
+var img = document.createElement("img");
+img.src = "robotTankSquareEast.png";
+qq.appendChild(img);
+
+function myFunction(e) {
+    e.preventDefault();
+    // alert("The form was submitted");
+    let ax = document.getElementById("commandText");
+    console.log("ax is", ax.value);
+}
+
+const testCases = [
+    "MOVE LEFT PLACE 0,0,NORTH MOVE REPORT",
+    "PLACE 0,0,NORTH LEFT REPORT PLACE 4,4,NORTH LEFT REPORT",
+    "PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT",
+    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE REPORT",
+    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE MOVE MOVE MOVE REPORT",
+    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE MOVE MOVE MOVE RIGHT RIGHT MOVE REPORT",
+];
+
 const facingDirections = ["NORTH", "EAST", "SOUTH", "WEST"];
 const validCommands = ["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT"];
-const validPlaceCommand = "PLACE";
-const validMoveCommand = "MOVE";
-const validLeftCommand = "LEFT";
-const validRightCommand = "RIGHT";
+const validPlaceText = "PLACE";
+const validMoveText = "MOVE";
+const validLeftText = "LEFT";
+const validRightText = "RIGHT";
+const validReportText = "REPORT";
 const robotPosition = {
     xPos: null,
     yPos: null,
     direction: "",
 };
 const gridMovementAllowed = 1;
+const upperBoundaryLimit = 4;
+const lowerBoundaryLimit = 0;
+
+var placeCommandExecuted = null;
 
 initaliseRobotStartingPosition();
 
@@ -33,66 +61,72 @@ function reportRobotPosition() {
 function initaliseRobotStartingPosition() {
     // Estblish a random starting position for x & y co-ordinates, direction and update robotPosition
 
-    robotPosition.xPos = genrateRandomNumber(5);
-    robotPosition.yPos = genrateRandomNumber(5);
+    // robotPosition.xPos = genrateRandomNumber(5);
+    // robotPosition.yPos = genrateRandomNumber(5);
 
     // establish random facing direction from the 4 directions
-    let facingDirectionNumber = genrateRandomNumber(facingDirections.length);
-    robotPosition.direction = facingDirections[facingDirectionNumber];
+    // let facingDirectionNumber = genrateRandomNumber(facingDirections.length);
+    // robotPosition.direction = facingDirections[facingDirectionNumber];
 
-    reportRobotPosition();
+    // reportRobotPosition();
 
     obtainNewCommand();
 }
 
 function obtainNewCommand() {
-    var tempInputtedCommand = window.prompt("Please enter a valid COMMAND:");
-    console.log(tempInputtedCommand);
+    // var tempInputtedCommand = window.prompt("Please enter a valid COMMAND:");
+    // console.log(tempInputtedCommand);
+    var tempInputtedCommand = testCases[1];
 
-    // replace commans with a space
-    let newStr = tempInputtedCommand.replace(/,/g, " ");
-    // console.log(newStr);
+    // replace all commas with spaces and convert to array for easier processing
+    var tempCommandArray = formatInputtedCommand(tempInputtedCommand);
 
-    var gj = newStr.split(" ");
-    console.log(gj);
+    // return the array with the first instance of the PLACE COMMAND
+    var refinedCommandArray = findFirstPlaceStatement(tempCommandArray);
 
-    // check for structural validity of PLACE COMMANDS
-    var isPlaceCommandValid = commandStructureValidityCheck(gj);
-    // console.log("Is valid?", isPlaceCommandValid);
+    // check for parameter validity of the PLACE COMMAND. i.e does it have a subsequent 2 integers and a direction
+    var isPlaceCommandValid = commandStructureValidityCheck(
+        refinedCommandArray
+    );
 
     // now move on to the rest of commands
     if (isPlaceCommandValid) {
-        // update robot position
-        updateRobotPosition(gj[1], gj[2], gj[3]);
+        // update robot position by destructuring
+        var xPos, yPos, facingDirection, restOfArray;
+        [, xPos, yPos, facingDirection, ...restOfArray] = refinedCommandArray;
+        console.log("REST IS", restOfArray);
+        updateRobotPosition(xPos, yPos, facingDirection);
         reportRobotPosition();
 
         //loop through remaining items in array
-        for (var i = 4; i < gj.length; i++) {
-            console.log(gj[i]);
-            if (gj[i] === "MOVE") {
-                console.log("I need to move");
+        for (var i = 0; i < restOfArray.length; i++) {
+            // console.log(restOfArray[i]);
+            if (restOfArray[i] === validMoveText) {
+                // console.log("I need to move");
                 // take current facing direction
                 movementValidityCheck();
-            } else if (gj[i] === "LEFT") {
-                // console.log("I need to turn left", gj[i]);
+            } else if (restOfArray[i] === validLeftText) {
+                // console.log("I need to turn left", restOfArray[i]);
                 turnLeft();
-            } else if (gj[i] === "RIGHT") {
-                turnRight;
-            } else if (gj[i] === "REPORT") {
+            } else if (restOfArray[i] === validRightText) {
+                turnRight();
+            } else if (restOfArray[i] === validReportText) {
                 reportRobotPosition();
+            } else {
+                console.log("WTF", restOfArray[i]);
             }
         }
-        // var isMovePossible = movementValidityCheck(gj);
     }
-
-    // moveRobot(gj);
 }
 
 function movementValidityCheck() {
     switch (robotPosition.direction) {
         case "EAST":
-            // move on the x axis if not out of bounds
-            if (robotPosition.xPos + gridMovementAllowed <= 4) {
+            // move on the x axis if robot does not fallnot out of bounds
+            if (
+                robotPosition.xPos + gridMovementAllowed <=
+                upperBoundaryLimit
+            ) {
                 robotPosition.xPos += gridMovementAllowed;
                 reportRobotPosition();
             } else {
@@ -101,7 +135,10 @@ function movementValidityCheck() {
             break;
         case "WEST":
             // move on the x axis ifn ot out of bounds
-            if (robotPosition.xPos - gridMovementAllowed >= 0) {
+            if (
+                robotPosition.xPos - gridMovementAllowed >=
+                lowerBoundaryLimit
+            ) {
                 robotPosition.xPos -= gridMovementAllowed;
                 reportRobotPosition();
             } else {
@@ -111,7 +148,10 @@ function movementValidityCheck() {
 
         case "NORTH":
             // move on the y axis if not out of bouds
-            if (robotPosition.yPos + gridMovementAllowed <= 4) {
+            if (
+                robotPosition.yPos + gridMovementAllowed <=
+                upperBoundaryLimit
+            ) {
                 robotPosition.yPos += gridMovementAllowed;
                 reportRobotPosition();
             } else {
@@ -122,7 +162,10 @@ function movementValidityCheck() {
 
         case "SOUTH":
             // move on the y axis if not out of bounds
-            if (robotPosition.yPos - gridMovementAllowed >= 0) {
+            if (
+                robotPosition.yPos - gridMovementAllowed >=
+                lowerBoundaryLimit
+            ) {
                 robotPosition.yPos -= gridMovementAllowed;
                 reportRobotPosition();
             } else {
@@ -134,11 +177,18 @@ function movementValidityCheck() {
 }
 
 function commandStructureValidityCheck(receivedCommand) {
-    if (receivedCommand[0] !== validPlaceCommand) {
+    console.log("What is the recieved Command", receivedCommand);
+    if (receivedCommand[0] !== validPlaceText) {
         return false;
-    } else if (receivedCommand[1] < 0 || receivedCommand[2] > 5) {
+    } else if (
+        receivedCommand[1] < lowerBoundaryLimit ||
+        receivedCommand[2] >= upperBoundaryLimit
+    ) {
         return false;
-    } else if (receivedCommand[2] < 0 || receivedCommand[2] > 5) {
+    } else if (
+        receivedCommand[2] < lowerBoundaryLimit ||
+        receivedCommand[2] >= upperBoundaryLimit
+    ) {
         return false;
     } else if (!facingDirections.includes(receivedCommand[3])) {
         return false;
@@ -165,36 +215,41 @@ function genrateRandomNumber(upperRange) {
 function turnLeft() {
     if (robotPosition.direction === "NORTH") {
         robotPosition.direction = "WEST";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "WEST") {
         robotPosition.direction = "SOUTH";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "SOUTH") {
         robotPosition.direction = "EAST";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "EAST") {
         robotPosition.direction = "NORTH";
-        reportRobotPosition();
+        // reportRobotPosition();
     }
 }
 
 function turnRight() {
     if (robotPosition.direction === "NORTH") {
         robotPosition.direction = "EAST";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "EAST") {
         robotPosition.direction = "SOUTH";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "SOUTH") {
         robotPosition.direction = "WEST";
-        reportRobotPosition();
+        // reportRobotPosition();
     } else if (robotPosition.direction === "WEST") {
         robotPosition.direction = "NORTH";
-        reportRobotPosition();
+        // reportRobotPosition();
     }
 }
 
-function isOutOfBounds() {
-    const boundaryUpperLimit = 4;
-    const boundaryLowerLimit = 0;
+function formatInputtedCommand(tempInputtedCommand) {
+    return tempInputtedCommand.replace(/,/g, " ").split(" ");
+}
+
+function findFirstPlaceStatement(tempCommandArray) {
+    // remove all possible items from the array until the first PLACE COMMAND is received
+    var indexPositionOfPlace = tempCommandArray.indexOf("PLACE");
+    return tempCommandArray.splice(indexPositionOfPlace);
 }

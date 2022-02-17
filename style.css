@@ -1,0 +1,70 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+}
+
+h1,
+h3 {
+    color: blue;
+    text-align: center;
+}
+
+.grid-container {
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 2px 2px;
+    grid-template-areas:
+        "fifteen sixteen seventeen eighteen nineteen"
+        "ten eleven twelve thirteen fourteen"
+        "five six seven eight nine"
+        "zero one two three four";
+}
+
+.square-container {
+    border: 3px solid green;
+    height: 100px;
+    width: 100%;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+    position: relative;
+}
+
+.command-container {
+    margin-top: 1rem;
+    width: 80%;
+    margin: 0 auto;
+    border: 3px solid black;
+    text-align: center;
+}
+
+input,
+button {
+    width: 80%;
+    margin-bottom: 1rem;
+}
+
+img {
+    position: absolute;
+    /* left: 30%;
+    top: 30%; */
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+}
+
+/* img {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+} */

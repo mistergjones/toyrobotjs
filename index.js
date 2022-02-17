@@ -11,12 +11,23 @@ const validMoveCommand = "MOVE";
 const validLeftCommand = "LEFT";
 const validRightCommand = "RIGHT";
 const robotPosition = {
-    xPos: "",
-    yPos: "",
+    xPos: null,
+    yPos: null,
     direction: "",
 };
 
 initaliseRobotStartingPosition();
+
+function reportRobotPosition() {
+    console.log(
+        "Robot Position is: " +
+            robotPosition.xPos +
+            "," +
+            robotPosition.yPos +
+            "," +
+            robotPosition.direction
+    );
+}
 
 function initaliseRobotStartingPosition() {
     // Estblish a random starting position for x & y co-ordinates, direction and update robotPosition
@@ -54,8 +65,64 @@ function obtainNewCommand() {
         updateRobotPosition(gj[1], gj[2], gj[3]);
         reportRobotPosition();
 
+        //loop through remaining items in array
         for (var i = 4; i < gj.length; i++) {
             console.log(gj[i]);
+            if (gj[i] === "MOVE") {
+                console.log("I need to move");
+                // take current facing direction
+                if (robotPosition.direction === "EAST") {
+                    // move on the x axis
+                    robotPosition.xPos += 1;
+                    reportRobotPosition();
+                }
+                if (robotPosition.direction === "WEST") {
+                    // move on the x axis
+                    robotPosition.xPos -= 1;
+                    reportRobotPosition();
+                }
+                if (robotPosition.direction === "NORTH") {
+                    // move on the y axis
+                    robotPosition.yPos += 1;
+                    reportRobotPosition();
+                }
+                if (robotPosition.direction === "SOUTH") {
+                    // move on the x axis
+                    robotPosition.yPos -= 1;
+                    reportRobotPosition();
+                }
+            } else if (gj[i] === "LEFT") {
+                console.log("I need to turn left", gj[i]);
+                if (robotPosition.direction === "NORTH") {
+                    robotPosition.direction = "WEST";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "WEST") {
+                    robotPosition.direction = "SOUTH";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "SOUTH") {
+                    robotPosition.direction = "EAST";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "EAST") {
+                    robotPosition.direction = "NORTH";
+                    reportRobotPosition();
+                }
+            } else if (gj[i] === "RIGHT") {
+                if (robotPosition.direction === "NORTH") {
+                    robotPosition.direction = "EAST";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "EAST") {
+                    robotPosition.direction = "SOUTH";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "SOUTH") {
+                    robotPosition.direction = "WEST";
+                    reportRobotPosition();
+                } else if (robotPosition.direction === "WEST") {
+                    robotPosition.direction = "NORTH";
+                    reportRobotPosition();
+                }
+            } else if (gj[i] === "REPORT") {
+                reportRobotPosition();
+            }
         }
         // var isMovePossible = movementValidityCheck(gj);
     }
@@ -85,20 +152,9 @@ function moveRobot(receivedCommand) {
     //var text = window.prompt("Wnat is your ommand");
 }
 
-function reportRobotPosition() {
-    console.log(
-        "Robot Position is: " +
-            robotPosition.xPos +
-            "," +
-            robotPosition.yPos +
-            "," +
-            robotPosition.direction
-    );
-}
-
 function updateRobotPosition(newXPos, newYPos, newDirection) {
-    robotPosition.xPos = newXPos;
-    robotPosition.yPos = newYPos;
+    robotPosition.xPos = parseInt(newXPos);
+    robotPosition.yPos = parseInt(newYPos);
     robotPosition.direction = newDirection;
 }
 

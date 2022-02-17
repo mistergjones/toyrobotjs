@@ -15,6 +15,7 @@ const robotPosition = {
     yPos: null,
     direction: "",
 };
+const gridMovementAllowed = 1;
 
 initaliseRobotStartingPosition();
 
@@ -71,26 +72,7 @@ function obtainNewCommand() {
             if (gj[i] === "MOVE") {
                 console.log("I need to move");
                 // take current facing direction
-                if (robotPosition.direction === "EAST") {
-                    // move on the x axis
-                    robotPosition.xPos += 1;
-                    reportRobotPosition();
-                }
-                if (robotPosition.direction === "WEST") {
-                    // move on the x axis
-                    robotPosition.xPos -= 1;
-                    reportRobotPosition();
-                }
-                if (robotPosition.direction === "NORTH") {
-                    // move on the y axis
-                    robotPosition.yPos += 1;
-                    reportRobotPosition();
-                }
-                if (robotPosition.direction === "SOUTH") {
-                    // move on the x axis
-                    robotPosition.yPos -= 1;
-                    reportRobotPosition();
-                }
+                movementValidityCheck();
             } else if (gj[i] === "LEFT") {
                 // console.log("I need to turn left", gj[i]);
                 turnLeft();
@@ -106,8 +88,49 @@ function obtainNewCommand() {
     // moveRobot(gj);
 }
 
-function movementValidityCheck(recevedCommand) {
-    // obtain current direction and position and check
+function movementValidityCheck() {
+    switch (robotPosition.direction) {
+        case "EAST":
+            // move on the x axis if not out of bounds
+            if (robotPosition.xPos + gridMovementAllowed <= 4) {
+                robotPosition.xPos += gridMovementAllowed;
+                reportRobotPosition();
+            } else {
+                console.log("Movement on X position not allow > 4");
+            }
+            break;
+        case "WEST":
+            // move on the x axis ifn ot out of bounds
+            if (robotPosition.xPos - gridMovementAllowed >= 0) {
+                robotPosition.xPos -= gridMovementAllowed;
+                reportRobotPosition();
+            } else {
+                console.log("Movement on X position not allow < 0");
+            }
+            break;
+
+        case "NORTH":
+            // move on the y axis if not out of bouds
+            if (robotPosition.yPos + gridMovementAllowed <= 4) {
+                robotPosition.yPos += gridMovementAllowed;
+                reportRobotPosition();
+            } else {
+                console.log("Movement on y position not allow > 4");
+            }
+
+            break;
+
+        case "SOUTH":
+            // move on the y axis if not out of bounds
+            if (robotPosition.yPos - gridMovementAllowed >= 0) {
+                robotPosition.yPos -= gridMovementAllowed;
+                reportRobotPosition();
+            } else {
+                console.log("Movement on Y position not allow < 0");
+            }
+
+            break;
+    }
 }
 
 function commandStructureValidityCheck(receivedCommand) {
@@ -169,4 +192,9 @@ function turnRight() {
         robotPosition.direction = "NORTH";
         reportRobotPosition();
     }
+}
+
+function isOutOfBounds() {
+    const boundaryUpperLimit = 4;
+    const boundaryLowerLimit = 0;
 }

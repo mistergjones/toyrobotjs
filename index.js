@@ -1,21 +1,30 @@
-// Assumptions:
-// 1. Assumed that INPUT means to be a human inputting COMMANDS. NOT VIA GUI / MOUSE CLICKS
-// 2. COMMANDS always need to be uppercase when inputted. Lowercase variations are not accepted
-// 3. Commands such as 'PLACE PLACE 0,0, NORTH REPORT are invalid
+// Assumptions: UPDATED
+// 1. Assumed that simulated tabletop actually now means GUI.
+// 2. INPUT means to be a human inputting COMMANDS
+// 3. COMMANDS always need to be uppercase when inputted. Lowercase variations are not accepted
 // 4. FLOATS ARE IGNORED and deemed an error. Integers only.
 
+// OBTAIN DOM ELEMENTS
 document.getElementById("myForm").addEventListener("submit", myFunction);
-var qq = document.getElementById("[4,0]");
-console.log("QQ is", qq);
-var img = document.createElement("img");
-img.src = "robotTankSquareEast.png";
-qq.appendChild(img);
+// var gridPosition = document.getElementById("[4,0]");
+// console.log("gridPosition is", gridPosition);
+var imgEast = document.createElement("img");
+imgEast.src = "robotTankSquareEast.png";
+var imgNorth = document.createElement("img");
+imgNorth.src = "robotTankSquareNorth.png";
+var imgSouth = document.createElement("img");
+imgSouth.src = "robotTankSquareSouth.png";
+var imgWest = document.createElement("img");
+imgWest.src = "robotTankSquareWest.png";
+
+// gridPosition.appendChild(imgWest);
 
 function myFunction(e) {
     e.preventDefault();
     // alert("The form was submitted");
     let ax = document.getElementById("commandText");
     console.log("ax is", ax.value);
+    obtainNewCommand(ax.value);
 }
 
 const testCases = [
@@ -38,6 +47,7 @@ const robotPosition = {
     xPos: null,
     yPos: null,
     direction: "",
+    ImageStringCooridinates: "",
 };
 const gridMovementAllowed = 1;
 const upperBoundaryLimit = 4;
@@ -45,38 +55,24 @@ const lowerBoundaryLimit = 0;
 
 var placeCommandExecuted = null;
 
-initaliseRobotStartingPosition();
-
-function reportRobotPosition() {
-    console.log(
-        "Robot Position is: " +
-            robotPosition.xPos +
-            "," +
-            robotPosition.yPos +
-            "," +
-            robotPosition.direction
-    );
-}
+// initaliseRobotStartingPosition();
 
 function initaliseRobotStartingPosition() {
     // Estblish a random starting position for x & y co-ordinates, direction and update robotPosition
-
     // robotPosition.xPos = genrateRandomNumber(5);
     // robotPosition.yPos = genrateRandomNumber(5);
-
     // establish random facing direction from the 4 directions
     // let facingDirectionNumber = genrateRandomNumber(facingDirections.length);
     // robotPosition.direction = facingDirections[facingDirectionNumber];
-
     // reportRobotPosition();
-
-    obtainNewCommand();
+    // obtainNewCommand();
 }
 
-function obtainNewCommand() {
+function obtainNewCommand(submittedValue) {
     // var tempInputtedCommand = window.prompt("Please enter a valid COMMAND:");
     // console.log(tempInputtedCommand);
-    var tempInputtedCommand = testCases[1];
+    // var tempInputtedCommand = testCases[1];
+    var tempInputtedCommand = submittedValue;
 
     // replace all commas with spaces and convert to array for easier processing
     var tempCommandArray = formatInputtedCommand(tempInputtedCommand);
@@ -129,18 +125,20 @@ function movementValidityCheck() {
             ) {
                 robotPosition.xPos += gridMovementAllowed;
                 reportRobotPosition();
+                updateImageCoordinates();
             } else {
                 console.log("Movement on X position not allow > 4");
             }
             break;
         case "WEST":
-            // move on the x axis ifn ot out of bounds
+            // move on the x axis if not out of bounds
             if (
                 robotPosition.xPos - gridMovementAllowed >=
                 lowerBoundaryLimit
             ) {
                 robotPosition.xPos -= gridMovementAllowed;
                 reportRobotPosition();
+                updateImageCoordinates();
             } else {
                 console.log("Movement on X position not allow < 0");
             }
@@ -154,6 +152,7 @@ function movementValidityCheck() {
             ) {
                 robotPosition.yPos += gridMovementAllowed;
                 reportRobotPosition();
+                updateImageCoordinates();
             } else {
                 console.log("Movement on y position not allow > 4");
             }
@@ -168,6 +167,7 @@ function movementValidityCheck() {
             ) {
                 robotPosition.yPos -= gridMovementAllowed;
                 reportRobotPosition();
+                updateImageCoordinates();
             } else {
                 console.log("Movement on Y position not allow < 0");
             }
@@ -178,16 +178,17 @@ function movementValidityCheck() {
 
 function commandStructureValidityCheck(receivedCommand) {
     console.log("What is the recieved Command", receivedCommand);
+
     if (receivedCommand[0] !== validPlaceText) {
         return false;
     } else if (
-        receivedCommand[1] < lowerBoundaryLimit ||
-        receivedCommand[2] >= upperBoundaryLimit
+        parseInt(receivedCommand[1]) < lowerBoundaryLimit ||
+        parseInt(receivedCommand[1]) >= upperBoundaryLimit
     ) {
         return false;
     } else if (
-        receivedCommand[2] < lowerBoundaryLimit ||
-        receivedCommand[2] >= upperBoundaryLimit
+        parseInt(receivedCommand[2]) < lowerBoundaryLimit ||
+        parseInt(receivedCommand[2]) >= upperBoundaryLimit
     ) {
         return false;
     } else if (!facingDirections.includes(receivedCommand[3])) {
@@ -197,8 +198,28 @@ function commandStructureValidityCheck(receivedCommand) {
     }
 }
 
-function moveRobot(receivedCommand) {
-    //var text = window.prompt("Wnat is your ommand");
+function updateImageCoordinates() {
+    robotPosition.ImageStringCooridinates =
+        "[" + robotPosition.xPos + "," + robotPosition.yPos + "]";
+
+    var imageToAdd = document.getElementById(
+        robotPosition.ImageStringCooridinates
+    );
+
+    switch (robotPosition.direction) {
+        case "NORTH":
+            imageToAdd.appendChild(imgNorth);
+            break;
+        case "SOUTH":
+            imageToAdd.appendChild(imgSouth);
+            break;
+        case "WEST":
+            imageToAdd.appendChild(imgWest);
+            break;
+        case "EAST":
+            imageToAdd.appendChild(imgEast);
+            break;
+    }
 }
 
 function updateRobotPosition(newXPos, newYPos, newDirection) {
@@ -216,15 +237,19 @@ function turnLeft() {
     if (robotPosition.direction === "NORTH") {
         robotPosition.direction = "WEST";
         // reportRobotPosition();
+        updateImageCoordinates();
     } else if (robotPosition.direction === "WEST") {
         robotPosition.direction = "SOUTH";
+        updateImageCoordinates();
         // reportRobotPosition();
     } else if (robotPosition.direction === "SOUTH") {
         robotPosition.direction = "EAST";
+        updateImageCoordinates();
         // reportRobotPosition();
     } else if (robotPosition.direction === "EAST") {
         robotPosition.direction = "NORTH";
         // reportRobotPosition();
+        updateImageCoordinates();
     }
 }
 
@@ -232,14 +257,18 @@ function turnRight() {
     if (robotPosition.direction === "NORTH") {
         robotPosition.direction = "EAST";
         // reportRobotPosition();
+        updateImageCoordinates();
     } else if (robotPosition.direction === "EAST") {
         robotPosition.direction = "SOUTH";
         // reportRobotPosition();
+        updateImageCoordinates();
     } else if (robotPosition.direction === "SOUTH") {
         robotPosition.direction = "WEST";
         // reportRobotPosition();
+        updateImageCoordinates();
     } else if (robotPosition.direction === "WEST") {
         robotPosition.direction = "NORTH";
+        updateImageCoordinates();
         // reportRobotPosition();
     }
 }
@@ -252,4 +281,15 @@ function findFirstPlaceStatement(tempCommandArray) {
     // remove all possible items from the array until the first PLACE COMMAND is received
     var indexPositionOfPlace = tempCommandArray.indexOf("PLACE");
     return tempCommandArray.splice(indexPositionOfPlace);
+}
+
+function reportRobotPosition() {
+    console.log(
+        "Robot Position is: " +
+            robotPosition.xPos +
+            "," +
+            robotPosition.yPos +
+            "," +
+            robotPosition.direction
+    );
 }

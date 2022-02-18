@@ -27,15 +27,6 @@ function myFunction(e) {
     obtainNewCommand(ax.value);
 }
 
-const testCases = [
-    "MOVE LEFT PLACE 0,0,NORTH MOVE REPORT",
-    "PLACE 0,0,NORTH LEFT REPORT PLACE 4,4,NORTH LEFT REPORT",
-    "PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT",
-    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE REPORT",
-    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE MOVE MOVE MOVE REPORT",
-    "PLACE 1,2,EAST MOVE MOVE MOVE MOVE LEFT MOVE MOVE MOVE MOVE RIGHT RIGHT MOVE REPORT",
-];
-
 const facingDirections = ["NORTH", "EAST", "SOUTH", "WEST"];
 const validCommands = ["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT"];
 const validPlaceText = "PLACE";
@@ -50,7 +41,7 @@ const robotPosition = {
     ImageStringCooridinates: "",
 };
 const gridMovementAllowed = 1;
-const upperBoundaryLimit = 4;
+const upperBoundaryLimit = 5;
 const lowerBoundaryLimit = 0;
 
 var placeCommandExecuted = null;

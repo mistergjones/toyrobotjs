@@ -1,9 +1,3 @@
-// Assumptions: UPDATED
-// 1. Assumed that simulated tabletop actually now means GUI.
-// 2. INPUT means to be a human inputting COMMANDS
-// 3. COMMANDS always need to be uppercase when inputted. Lowercase variations are not accepted
-// 4. FLOATS ARE IGNORED and deemed an error. Integers only.
-
 // OBTAIN DOM ELEMENTS
 document.getElementById("myForm").addEventListener("submit", formSubmission);
 // var gridPosition = document.getElementById("[4,0]");

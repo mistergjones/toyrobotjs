@@ -1,23 +1,12 @@
+// Function to ensure that the test data supplied is in correct format
 function formatInputtedCommand(tempInputtedCommand) {
-    return tempInputtedCommand.replace(/,/g, " ").split(" ");
-}
+    // cater for placements of comments/spaces to produce same results
+    var tempArray = tempInputtedCommand.replace(/,/g, "").split(" ");
 
-function findFirstPlaceStatement(tempCommandArray) {
-    // remove all possible items from the array until the first PLACE COMMAND is received
-    var indexPositionOfPlace = tempCommandArray.indexOf("PLACE");
-    return tempCommandArray.splice(indexPositionOfPlace);
+    return tempArray;
 }
-
-function genrateRandomNumber(upperRange) {
-    var randomNumber = Math.floor(Math.random() * upperRange);
-    return randomNumber;
-}
-
-function isThereAnotherValidPlace() {}
 
 function commandStructureValidityCheck(receivedCommand) {
-    console.log("What is the recieved Command", receivedCommand);
-
     if (receivedCommand[0] !== validPlaceText) {
         return false;
     } else if (

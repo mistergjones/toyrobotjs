@@ -1,7 +1,6 @@
 function reportRobotPosition() {
-    console.log(
-        "Robot Position is: " +
-            robotPosition.xPos +
+    window.alert(
+        robotPosition.xPos +
             "," +
             robotPosition.yPos +
             "," +

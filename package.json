@@ -1,0 +1,23 @@
+{
+    "name": "toyrobot",
+    "version": "1.0.0",
+    "description": "ToyRobot",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mistergjones/toyrobotjs.git"
+    },
+    "author": "Glen Jones",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mistergjones/toyrobotjs/issues"
+    },
+    "homepage": "https://github.com/mistergjones/toyrobotjs#readme",
+    "dependencies": {
+        "jest": "^27.5.1"
+    },
+    "devDependencies": {}
+}

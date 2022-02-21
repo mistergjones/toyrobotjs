@@ -69,7 +69,7 @@ REPORT
 Result: The last move is ignored as robot would fall. REPORT shows current grid position: 0,3, WEST
 
 ```
-
+RIGHT
 ```
 
 Result: Toy Robot faces North

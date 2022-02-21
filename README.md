@@ -1,25 +1,42 @@
 ## Table of contents
 
 -   [General info](#general-info)
+-   [Download](#download)
 -   [Assumptions](#assumptions)
 -   [Test Data](#test-data)
--   [ToyRobot Link](#ToyRobot-link)
--   [Necessary Deliverables](#necessary-deliverable)
+-   [Necessary Deliverables](#necessary-deliverables)
 -   [Screenshots](#screenshots)
 -   [In-depth Features of ToyRobot](#in-depth-features-of-ToyRobot)
 -   [Challenges](#challenges)
 -   [Technologies Used](#technologies-used)
 -   [Approach Taken](#approach-taken)
--   [Download](#download)
 
 ## General info
 
 The code represents the response to the neceesary deliverables as articulated in the coding deliverables below.
 
+## Download
+
+Download via:
+
+Github:
+
+-   https://github.com/mistergjones/toyrobotjs
+
+Docker Hub Public Repository:
+
+-   https://hub.docker.com/r/mrgjones/toyrobot
+
+'''
+docker pull mrgjones/toyrobot
+'''
+
+Navigate to: http://localhost:2999/
+
 ## Assumptions
 
--   A simulated square table top meant utilising a GUI
--   A Docker Hub account and repository for this Toy Robot challenge was required. (I needed to learn the basics of Docker)
+-   A simulated square table top meant utilising a GUI.
+-   A Docker Hub account and repository for this Toy Robot challenge was required. (I needed to learn the basics of Docker).
 -   Need to include the docker-compose.yml and Dockerfile to confirm the use of Containerisation.
 -   As per Example Input and Output below in the challenge, valid PLACE command is: "PLACE 0, 0, NORTH" and not "PLACE 0,0,NORTH" or any other variation.
 -   Assumed that if an invalid command is given, no other valid command will work until a new valid PLACE command.
@@ -147,22 +164,13 @@ REPORT
 
 Output: 3, 3, NORTH
 
-## Dockerization
+## Dockerizationdocker
 
 As part of your submission please include the necessary files such that your challenge can be run by executing `docker-compose up`.
-
-## ToyRobot Link
-
--   The link to the ToyRobot online application is here:
-    [https://ToyRobot.herokuapp.com]
 
 ## Screenshots
 
 ![Example screenshot](screenshot.png)
-
-## Challenges
-
--   Learning the basics of Docker. (i.e. create docker hub account, read through their geting-started documentation etc) and then applying these commands to my own project.
 
 ## Approach Taken
 
@@ -170,6 +178,16 @@ As part of your submission please include the necessary files such that your cha
 -   Took the approach of a TDD mindset.
 -   Drew a basic ER Diagram to represent the entities involved.
 -   Then wrote down a basic algorithm with defined or what I perceived to be the correct function calls.
+
+## Challenges
+
+-   Learning the fundamentals of Docker. (i.e. create docker hub account, read through their geting-started documentation etc) and then applying these commands to my own project.
+-   Having to raise a Hub Docker Github Issue. They had an issue in that New Repository function was not working at all.
+
+## Learnings
+
+-   My new learning of Docker is that Named Volumes are great if you would like to have persistent data in a database.
+-   Bind mounts are useful that if you mount source code into a container, you can your code changes straight away as opposed to having to create this everytime. (Will explore more of this).
 
 ## Technologies Used
 
@@ -180,9 +198,3 @@ Project is created with:
 -   HTML
 -   DOM manipulation
 -   Node/Express (purely for including a dependency to test required Dockerfile and docker-compose.yml and learn more about Docker )
-
-## Download
-
-Download via:
-
--   https://github.com/mistergjones/toyrobotjs

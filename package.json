@@ -17,9 +17,9 @@
     },
     "homepage": "https://github.com/mistergjones/toyrobotjs#readme",
     "dependencies": {
-        "jest": "^27.5.1",
         "ejs": "^3.1.6",
-        "express": "^4.17.3"
+        "express": "^4.17.3",
+        "jest": "^27.5.1"
     },
     "devDependencies": {}
 }

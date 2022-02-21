@@ -185,7 +185,7 @@ As part of your submission please include the necessary files such that your cha
 ## Challenges
 
 -   Learning the fundamentals of Docker. (i.e. create docker hub account, read through their geting-started documentation etc) and then applying these commands to my own project.
--   Having to raise a Hub Docker Github Issue. They had an issue in that New Repository function was not working at all.
+-   Having to raise a Hub Docker Github Issue. They had an issue in that New Repository function was not working at all. It was resolved on 20/02.
 
 ## Learnings
 

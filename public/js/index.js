@@ -3,13 +3,13 @@ document.getElementById("myForm").addEventListener("submit", formSubmission);
 // var gridPosition = document.getElementById("[4,0]");
 // console.log("gridPosition is", gridPosition);
 var imgEast = document.createElement("img");
-imgEast.src = "./assets/robotTankSquareEast.png";
+imgEast.src = "./images/robotTankSquareEast.png";
 var imgNorth = document.createElement("img");
-imgNorth.src = "./assets/robotTankSquareNorth.png";
+imgNorth.src = "./images/robotTankSquareNorth.png";
 var imgSouth = document.createElement("img");
-imgSouth.src = "./assets/robotTankSquareSouth.png";
+imgSouth.src = "./images/robotTankSquareSouth.png";
 var imgWest = document.createElement("img");
-imgWest.src = "./assets/robotTankSquareWest.png";
+imgWest.src = "./images/robotTankSquareWest.png";
 
 // gridPosition.appendChild(imgWest);
 
@@ -36,7 +36,7 @@ const robotPosition = {
 
 // GRID MOVEMENTS AND BOUNDARY LIMIT SETTINGS
 const gridMovementAllowed = 1;
-const upperBoundaryLimit = 5;
+const upperBoundaryLimit = 4;
 const lowerBoundaryLimit = 0;
 
 // BOOLEANS TO TRACK VALID COMMANDS

@@ -27,11 +27,11 @@ Docker Hub Public Repository:
 
 -   https://hub.docker.com/r/mrgjones/toyrobot
 
-'''
+```
 docker pull mrgjones/toyrobot
-'''
+```
 
-Navigate to: http://localhost:2999/
+Then on your browser, navigate to: http://localhost:2999/
 
 ## Assumptions
 
@@ -66,28 +66,31 @@ REPORT
 
 Result: The last move is ignored as robot would fall. REPORT shows current grid position: 0,3, WEST
 
-'''
-RIGHT
-'''
+```
+
+```
 
 Result: Toy Robot faces North
 
-'''
+```
 MOVE
 MOVE
-'''
+```
+
 Result: Toy Robot only moves 1 grid. Ignores second as it would fall off table.
 
-'''
+```
 MV
 RIGHT
-'''
+```
+
 Result: Application ignore MV and RIGHT. Becuse MV is a wrong command, it will ignore all other commands until a valid PLACE commmand is provided.
 
-'''
+```
 PLACE 1, 1, NORTH
 REPORT
-'''
+```
+
 Result: REPORT shows current grid position: 1,1,NORTH
 
 ## Necessary Deliverables
@@ -186,8 +189,8 @@ As part of your submission please include the necessary files such that your cha
 
 ## Learnings
 
--   My new learning of Docker is that Named Volumes are great if you would like to have persistent data in a database.
--   Bind mounts are useful that if you mount source code into a container, you can your code changes straight away as opposed to having to create this everytime. (Will explore more of this).
+-   Named Volumes are great if you would like to have persistent data in a database.
+-   Bind mounts are useful that if you mount source code into a container, you can your code changes straight away as opposed to having to create this everytime. (Will need to explore more of this).
 
 ## Technologies Used
 

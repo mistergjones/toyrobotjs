@@ -13,7 +13,9 @@
 
 ## General info
 
-The code represents the response to the neceesary deliverables as articulated in the coding deliverables below.
+This Toy Robot application is used to complete a Coding Challenge with the added twist of ensuring it is containerised via Docker.
+
+Instructions to download this is found below.
 
 ## Download
 
